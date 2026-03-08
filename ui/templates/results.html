@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cawler ID — Results</title>
+    <style>
+        body {
+            font-family: monospace;
+            max-width: 600px;
+            margin: 80px auto;
+            padding: 0 20px;
+            background: #f9f9f9;
+            color: #111;
+        }
+        h1 { font-size: 2rem; margin-bottom: 8px; }
+        p.subtitle { color: #555; margin-bottom: 40px; }
+
+        .result-card {
+            background: white;
+            border: 1px solid #e0e0e0;
+            border-radius: 8px;
+            padding: 16px 24px;
+            margin-bottom: 12px;
+            display: flex;
+            align-items: center;
+            gap: 20px;
+        }
+        .rank {
+            font-size: 1.4rem;
+            font-weight: bold;
+            color: #aaa;
+            min-width: 32px;
+        }
+        .rank.top { color: #111; }
+        .bird-name {
+            flex: 1;
+            font-size: 1.1rem;
+            text-transform: capitalize;    /* american_robin -> American_robin */
+        }
+        .score { color: #888; font-size: 0.9rem; }
+
+        .top-match {
+            border: 2px solid #111;
+        }
+        .top-label {
+            font-size: 0.75rem;
+            background: #111;
+            color: white;
+            padding: 2px 8px;
+            border-radius: 4px;
+            margin-left: 8px;
+        }
+
+        .back-link {
+            display: inline-block;
+            margin-top: 32px;
+            color: #111;
+            text-decoration: none;
+            border-bottom: 1px solid #111;
+        }
+        .back-link:hover { color: #555; border-color: #555; }
+    </style>
+</head>
+<body>
+
+    <h1>Results</h1>
+    <p class="subtitle">File analyzed: {{ filename }}</p>
+
+    <!-- loop through results from Peyton's compare_to_references -->
+    {% for entry in results %}
+        <div class="result-card {% if entry.rank == 1 %}top-match{% endif %}">
+            <span class="rank {% if entry.rank == 1 %}top{% endif %}">#{{ entry.rank }}</span>
+            <span class="bird-name">
+                {{ entry.bird.replace('_', ' ') }}          <!-- convert american_robin to american robin -->
+                {% if entry.rank == 1 %}
+                    <span class="top-label">top match</span>
+                {% endif %}
+            </span>
+            <span class="score">{{ entry.score }}</span>
+        </div>
+    {% endfor %}
+
+    <a class="back-link" href="/">Analyze another recording</a>
+
+</body>
+</html>
