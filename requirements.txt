@@ -1,8 +1,11 @@
 # Bird Call Identifier
 # Sprint 1 dependencies
 # Install with: pip install -r requirements.txt
+# librosa needs a system-level decoder to read .mp3 files. pip cannot install this. Install via terminal with: Mac (Homebrew): brew install ffmpeg, Windows (Chocolatey): choco install ffmpeg, Linux: sudo apt install ffmpeg
 
 numpy>=1.22.3
 scipy>=1.6.0
 librosa>=0.11.0
 matplotlib>=3.5.0
+soundfile==0.12.1
+audioread==3.0.1
