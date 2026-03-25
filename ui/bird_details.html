@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Bird Details — {{ bird.name }}</title>
+</head>
+<body>
+
+<h1>{{ bird.name }}</h1>
+
+<p>{{ bird.description }}</p>
+
+<!--Will need to update these-->
+<h2>Image</h2>
+<img src="{{ url_for('static', filename=bird.image) }}" width="400">
+
+<h2>Example Audio</h2>
+<audio controls>
+    <source src="{{ url_for('static', filename=bird.audio) }}" type="audio/mpeg">
+</audio>
+
+<h2>Reference Spectrogram</h2>
+<img src="{{ url_for('static', filename=bird.reference_spec) }}" width="500">
+
+<br><br>
+<a href="/upload">Analyze Another Call</a>
+
+</body>
+</html>

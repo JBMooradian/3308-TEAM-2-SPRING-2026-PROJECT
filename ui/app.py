@@ -2,16 +2,23 @@ from flask import Flask, render_template, request, redirect, url_for
 import os
 
 from spectrogram.spectrogram_generator import generate_mel_spectrogram, plot_spectrogram
-from ranker.ranker import compare_to_references, generate_mock_spectrogram
+from ranker.ranker import compare_to_references, generate_mock_spectrogram, reference_specs
 
 app = Flask(__name__)
 # Configure uploads folder:
 app.config['UPLOAD_FOLDER'] = 'static/uploads'
 
+# 1) Landing Page
 @app.route('/')
-def index():
-    return render_template('index.html')
+def landing():
+    return render_template('landing.html')
 
+# 2) Upload Page
+@app.route('/upload')
+def upload_page():
+    return render_template('upload.html')
+
+# 3) Analyze 
 @app.route('/analyze', methods=['POST'])
 def analyze():
     
@@ -36,13 +43,35 @@ def analyze():
     bird_name = "uploaded_call"
     plot_spectrogram(spec, bird_name)
 
-    # Run ranker from Peyton's function
+    # TODO: Pass reference_specs ***
+    # Added: from ranker.ranker import reference_specs
     results = compare_to_references(spec, reference_specs)
 
     return render_template(
         'results.html',
+        # *** needs plot_spectogram to save file to static/uploads/
         spectrogram_image=f"uploads/{bird_name}_spectrogram.png",
         results=results
+    )
+
+# 4) Bird Details Page
+@app.route('/bird/<bird_name>')
+def bird_details(bird_name):
+    # TODO: Replace with SQL lookup ***
+    bird_data = {
+        "name": bird_name,
+        "description": "Placeholder description.",
+        "image": f"birds/{bird_name}.png",
+        "audio": f"birds/{bird_name}.mp3",
+        "reference_spec": f"birds/{bird_name}_spectrogram.png"
+    }
+
+    return render_template('bird_details.html', bird=bird_data)
+    
+# 5) About Page
+@app.route('/about')
+def about():
+    return render_template('about.html')
 
 if __name__ == '__main__':
     app.run(debug=True)
