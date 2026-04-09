@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Bird Details — {{ bird.name }}</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+
+<!--Add nav bar-->
+<nav>
+    <a href="/">Home</a> |
+    <a href="/upload">Upload</a> |
+    <a href="/about">About</a>
+</nav>
+<hr>
+
+<main>
+    <h1>{{ bird.name }}</h1>
+    
+    <p>{{ bird.description }}</p>
+    
+    <!--Will need to update these-->
+    <h2>Image</h2>
+    <img src="{{ url_for('static', filename=bird.image) }}" width="400">
+    
+    <h2>Example Audio</h2>
+    <audio controls>
+        <source src="{{ url_for('static', filename=bird.audio) }}" type="audio/mpeg">
+    </audio>
+    
+    <h2>Reference Spectrogram</h2>
+    <img src="{{ url_for('static', filename=bird.reference_spec) }}" width="500">
+    
+    <br><br>
+    <a href="/upload">Analyze Another Call</a>
+</main>
+    
+</body>
+</html>

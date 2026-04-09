@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Cawler ID</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+
+<!--Add nav bar-->
+<nav>
+    <a href="/">Home</a> |
+    <a href="/upload">Upload</a> |
+    <a href="/about">About</a>
+</nav>
+<hr>
+    
+<main>
+    <h1>Cawler ID</h1>
+    <p>Bird-call identifier</p>
+    
+    <h2>How It Works</h2>
+    <p>Upload a bird call, we generate a spectrogram, compare it to known species, and show you the closest matches.</p>
+    
+    <a href="/upload"><button>Upload a Bird Call</button></a>
+    <br><br>
+    <a href="/about">About Cawler ID</a>
+</main>
+    
+</body>
+</html>

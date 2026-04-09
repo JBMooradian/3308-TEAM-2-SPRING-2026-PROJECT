@@ -1,7 +1,7 @@
 from flask import Flask, render_template, request, redirect, url_for
 import os
 
-from spectrogram.spectrogram_generator import generate_mel_spectrogram, plot_spectrogram
+from spectrogram.spectrogram_generator import plot_spectrogram, generate_mel_spectrogram
 from ranker.ranker import compare_to_references, generate_mock_spectrogram, reference_specs
 
 app = Flask(__name__)

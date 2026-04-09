@@ -2,9 +2,19 @@
 <html>
 <head>
     <title>Cawler ID Results</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
 </head>
 <body>
 
+<main>
+    <!--Add nav bar-->
+    <nav>
+        <a href="/">Home</a> |
+        <a href="/upload">Upload</a> |
+        <a href="/about">About</a>
+    </nav>
+    <hr>
+    
     <h1>Bird Call Analysis Results</h1>
 
     <!-- Display the generated spectrogram -->
@@ -17,7 +27,11 @@
     <ul>
         {% for entry in results %}
             <li>
-                #{{ entry.rank }} — {{ entry.bird }} (score: {{ entry.score }})
+                #{{ entry.rank }} —
+                <a href="{{ url_for('bird_details', bird_name=entry.bird) }}">
+                    {{ entry.bird }}
+                </a>
+                (score: {{ entry.score }})
             </li>
         {% endfor %}
         
@@ -25,7 +39,8 @@
     <br><br>
 
     <!-- Link back to upload page -->
-    <a href="/">Analyze another recording</a>
-
+    <a href="/upload">Analyze another recording</a>
+</main>
+    
 </body>
 </html>

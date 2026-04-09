@@ -2,9 +2,19 @@
 <html>
 <head>
     <title>Upload Page</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
 </head>
 <body>
-    
+
+<!--Add nav bar-->
+<nav>
+    <a href="/">Home</a> |
+    <a href="/upload">Upload</a> |
+    <a href="/about">About</a>
+</nav>
+<hr>
+
+<main>
     <h1>Upload a Bird Call</h1>
 
     <!-- Upload form sends audio file to /analyze -->
@@ -15,10 +25,11 @@
         <input type="file" name="audio_file" accept="audio/*" required><br><br>
 
         <!-- Submit button -->
-        <button type="submit">Analyze Bird Call</button>
-        
+        <button type="submit">Analyze Bird Call</button>     
     </form>
-
+    
+</main>
+    
 <br>
 <a href="/">Back to Home</a>
     
