@@ -21,7 +21,9 @@ def landing():
 def upload_page():
     return render_template('upload.html')
 
-# 3) Analyze 
+# 3) Analyze
+import tempfile
+
 @app.route('/analyze', methods=['POST'])
 def analyze():
     
@@ -34,18 +36,31 @@ def analyze():
     if file.filename == '':
         return "No selected file", 400
 
-    # Save uploaded file
-    filepath = os.path.join(app.config['UPLOAD_FOLDER'], file.filename)
-    # ("static/uploads", "raven_call.mp3") -> "static/uploads/raven_call.mp3"
-    file.save(filepath)
+    # vibe-coded test solution: save upload data as a base64 temp file bc render cannot write to disk
+    suffix = os.path.splittext(file.filename)[1]
+    with tempfile.NamedTemporaryFile(delete=True, suffix=suffix) as tmp:
+        file.save(tmp.name)
+        results = classifier.identify_bird(tmp.name)
+        bird_name = results[0]["bird"]
+        spec_array = generate_mel_spectrogram(tmp.name)
 
-    results = classifier.identify_bird(filepath)
-    bird_name = results[0]["bird"]
+    # save spec image to temp file and encode as base64
+    import io
+    import base64
+    import matplotlib.pyplot as plt
+    import librosa.display
 
-    spec_array = generate_mel_spectrogram(filepath)
-    spec_filename = f"{bird_name}_spectrogram.png"
-    spec_save_path = os.path.join(app.config['UPLOAD_FOLDER'], spec_filename)
-    plot_spectrogram(spec_array, save_path=spec_save_path, bird_name=bird_name)
+    fig, ax = plt.subplots(figsize=(10, 4))
+    librosa.display.specshow(spec_array, x_axis='time', y_axis='mel', fmax=8000)
+    fig.colorbar(ax.collections[0], ax=ax, format='%+2.0f dB')
+    ax.set_title(f'Mel-Spectrogram: {bird_name}')
+    plt.tight_layout()
+
+    buf = io.BytesIO()
+    plt.savefig(buf, format='png')
+    plt.close()
+    buf.seek(0)
+    spectrogram_b64 = base64.b64encode(buf.read()).decode('utf-8')
 
     return render_template(
         'results.html',

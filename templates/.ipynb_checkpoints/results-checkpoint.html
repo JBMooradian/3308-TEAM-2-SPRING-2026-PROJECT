@@ -19,7 +19,7 @@
 
     <!-- Display the generated spectrogram -->
     <h2>Spectrogram</h2>
-    <img src="{{ url_for('static', filename=spectrogram_image) }}" 
+    <img src="data:image/png;base64,{{ spectrogram_image }}" 
          alt="Spectrogram Image" width="600">
 
     <!-- Display ranked results -->
