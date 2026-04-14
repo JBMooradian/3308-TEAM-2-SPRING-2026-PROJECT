@@ -37,7 +37,7 @@ def analyze():
         return "No selected file", 400
 
     # vibe-coded test solution: save upload data as a base64 temp file bc render cannot write to disk
-    suffix = os.path.splittext(file.filename)[1]
+    suffix = os.path.splitext(file.filename)[1]
     with tempfile.NamedTemporaryFile(delete=True, suffix=suffix) as tmp:
         file.save(tmp.name)
         results = classifier.identify_bird(tmp.name)
