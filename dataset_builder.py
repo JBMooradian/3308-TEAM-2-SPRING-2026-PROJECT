@@ -16,7 +16,7 @@ def build_spectrogram_dataset():
             save_spectrogram(audio_path)
 
 # adapted from Bri's model. It now normalizes the specs and then saves them to a new dir called "spectrograms"
-def generate_mel_spectrogram(audio_path):
+def generate_spec_numpy(audio_path):
 
     # Load the audio file
     y, sr = librosa.load(audio_path, sr=None)

@@ -1,7 +1,6 @@
 import numpy as np
 import os
 from nn import NeuralNetwork
-from dataset_builder import generate_mel_spectrogram
 
 SPEC_ROOT = "data/spectrograms"
 MODEL_OUT = "data/model/bird_nn.npy"

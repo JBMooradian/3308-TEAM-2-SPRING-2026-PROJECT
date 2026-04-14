@@ -1,7 +1,9 @@
 from flask import Flask, render_template, request, redirect, url_for
 import os
 
-from dataset_builder import generate_mel_spectrogram
+from dataset_builder import generate_spec_numpy
+
+from spectrogram_generator import generate_mel_spectrogram, plot_spectrogram
 
 import classifier
 
@@ -37,13 +39,19 @@ def analyze():
     # ("static/uploads", "raven_call.mp3") -> "static/uploads/raven_call.mp3"
     file.save(filepath)
 
-    classify = identify_bird(filepath)
+    results = classifier.identify_bird(filepath)
+    bird_name = results[0]["bird"]
+
+    spec_array = generate_mel_spectrogram(filepath)
+    spec_filename = f"{bird_name}_spectrogram.png"
+    spec_save_path = os.path.join(app.config['UPLOAD_FOLDER'], spec_filename)
+    plot_spectrogram(spec_array, save_path=spec_save_path, bird_name=bird_name)
 
     return render_template(
         'results.html',
         # *** needs plot_spectogram to save file to static/uploads/
         spectrogram_image=f"uploads/{bird_name}_spectrogram.png",
-        results = classify
+        results = results
     )
 
 # 4) Bird Details Page

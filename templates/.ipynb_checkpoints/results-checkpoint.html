@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Cawler ID Results</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+
+<main>
+    <!--Add nav bar-->
+    <nav>
+        <a href="/">Home</a> |
+        <a href="/upload">Upload</a> |
+        <a href="/about">About</a>
+    </nav>
+    <hr>
+    
+    <h1>Bird Call Analysis Results</h1>
+
+    <!-- Display the generated spectrogram -->
+    <h2>Spectrogram</h2>
+    <img src="{{ url_for('static', filename=spectrogram_image) }}" 
+         alt="Spectrogram Image" width="600">
+
+    <!-- Display ranked results -->
+    <h2>Similarity Ranking</h2>
+    <ul>
+        {% for entry in results %}
+            <li>
+                #{{ entry.rank }} —
+                <a href="{{ url_for('bird_details', bird_name=entry.bird) }}">
+                    {{ entry.bird }}
+                </a>
+                (score: {{ entry.score }})
+            </li>
+        {% endfor %}
+        
+    </ul>
+    <br><br>
+
+    <!-- Link back to upload page -->
+    <a href="/upload">Analyze another recording</a>
+</main>
+    
+</body>
+</html>

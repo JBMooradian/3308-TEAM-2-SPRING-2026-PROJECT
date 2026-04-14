@@ -1,6 +1,6 @@
 import numpy as np
 import os
-from dataset_builder import generate_mel_spectrogram # <- combo of Bri's spectrogram and normalizing
+from dataset_builder import generate_spec_numpy # <- combo of Bri's spectrogram and normalizing
 from nn import NeuralNetwork
 
 import sys
@@ -34,7 +34,7 @@ def load_model():
 # refactored from the cross-correlation function in ranker. This just uses nn.predict
 # instead of scipy.signal.correlate
 def identify_bird(audio_path):
-    spec = generate_mel_spectrogram(audio_path)
+    spec = generate_spec_numpy(audio_path)
     vec = flatten_spec(spec)
     nn, labels = load_model()
 
