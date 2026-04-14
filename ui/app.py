@@ -1,8 +1,9 @@
 from flask import Flask, render_template, request, redirect, url_for
 import os
 
-from spectrogram.spectrogram_generator import plot_spectrogram, generate_mel_spectrogram
-from ranker.ranker import compare_to_references, generate_mock_spectrogram, reference_specs
+from dataset_builder import generate_mel_spectrogram
+
+import classifier
 
 app = Flask(__name__)
 # Configure uploads folder:
@@ -36,22 +37,13 @@ def analyze():
     # ("static/uploads", "raven_call.mp3") -> "static/uploads/raven_call.mp3"
     file.save(filepath)
 
-    # Generate spectrogram from uploaded audio
-    spec = generate_mel_spectrogram(filepath)
-
-    # Save spectrogram image
-    bird_name = "uploaded_call"
-    plot_spectrogram(spec, bird_name)
-
-    # TODO: Pass reference_specs ***
-    # Added: from ranker.ranker import reference_specs
-    results = compare_to_references(spec, reference_specs)
+    classify = identify_bird(filepath)
 
     return render_template(
         'results.html',
         # *** needs plot_spectogram to save file to static/uploads/
         spectrogram_image=f"uploads/{bird_name}_spectrogram.png",
-        results=results
+        results = classify
     )
 
 # 4) Bird Details Page
